@@ -3,11 +3,13 @@
 **Repository:** `https://github.com/priyadharshiniyuvaraj1491926-max/RESUME_ANALYSER`  
 **Long-Term Target:** 100 genuine commits & 100 genuine Pull Requests targeting `main`.
 
-## Verified Baseline
-- **Existing Verified Commits on `origin/main`:** 9 (`06d4456` – `fc113a3`)
-- **Existing Verified Pull Requests:** 0
-- **Remaining to 100 Commits:** 91 (before new sprint commits)
-- **Remaining to 100 PRs:** 100
+## Verified Baseline & Progress Summary
+- **Verified Commits on `origin/main`:** 9 (`06d4456` – `fc113a3`)
+- **New Feature/Fix Commits on Branches:** 4 (`350399c`, `a949d84`, `f6bf151`, `7437f9d`)
+- **Total Verified Commits Created:** 13
+- **Total Genuine PRs Created:** 4 (all open targeting `main`, awaiting user review)
+- **Remaining Target Commits to 100:** 87
+- **Remaining Target PRs to 100:** 96
 
 ---
 
@@ -16,6 +18,10 @@
 | Task # | Feature / Improvement | Branch | Commit Hash | PR # | PR Status | Testing Evidence |
 |---|---|---|---|---|---|---|
 | 1–9 | Initial MVP backend, frontend, docs, tests, route alignment | `main` | `06d4456`–`fc113a3` | — | Direct `main` | `npm test` (13/13), `vite build` |
+| 10 | Reusable UI components (`PageHeader`, `StatCard`, `EmptyState`), dark-mode tokens, mobile drawer | `feat-ui-components-and-responsive-shell` | `350399c` | [#1](https://github.com/priyadharshiniyuvaraj1491926-max/RESUME_ANALYSER/pull/1) | Open | `vite build` (2,102 modules), `npm test` (13/13) |
+| 11 | Landing page SaaS redesign with workspace preview & auth page polish | `feat-landing-and-auth-redesign` | `a949d84` | [#2](https://github.com/priyadharshiniyuvaraj1491926-max/RESUME_ANALYSER/pull/2) | Open | `vite build` clean, auth tests (6/6) |
+| 12 | 100-Task GitHub contribution roadmap and PR tracker documentation | `docs-github-contribution-tracker` | `f6bf151` | [#3](https://github.com/priyadharshiniyuvaraj1491926-max/RESUME_ANALYSER/pull/3) | Open | Verified commit and PR counts on GitHub |
+| 13 | Fix empty resume analysis results, PDF line reconstruction, and API response mappings | `fix/resume-analysis-empty-results` | `7437f9d` | [#4](https://github.com/priyadharshiniyuvaraj1491926-max/RESUME_ANALYSER/pull/4) | Open | Live E2E test: 1,485 chars, ATS 90, 25 skills, 8 exp; `npm test` (13/13); `vite build` |
 
 ---
 
