@@ -52,4 +52,7 @@ const resumeSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
+// Compound index for efficient per-user resume listing sorted by newest
+resumeSchema.index({ userId: 1, createdAt: -1 });
+
 export default mongoose.model('Resume', resumeSchema);

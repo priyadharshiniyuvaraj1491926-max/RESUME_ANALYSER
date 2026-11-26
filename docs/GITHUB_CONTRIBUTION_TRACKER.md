@@ -5,11 +5,11 @@
 
 ## Verified Baseline & Progress Summary
 - **Verified Commits on `origin/main`:** 9 (`06d4456` – `fc113a3`)
-- **New Feature/Fix Commits on Pushed Branches:** 13 (`350399c`, `a949d84`, `f6bf151`, `7437f9d`, `422ead9`, `4d7fab8`, `c3b4b5f`, `643158d`, `28e599b`, `a834f65`, `d5b2903`, `2c23cb4`, + tracker syncs)
-- **Total Verified Commits Created:** 22
-- **Total Genuine PRs Open on GitHub:** 12 (all open targeting `main`, awaiting user review)
-- **Remaining Target Commits to 100:** 78
-- **Remaining Target PRs to 100:** 88
+- **New Feature/Fix Commits on Pushed Branches:** 19+ (`350399c`, `a949d84`, `f6bf151`, `7437f9d`, `422ead9`, `4d7fab8`, `c3b4b5f`, `643158d`, `28e599b`, `a834f65`, `d5b2903`, `2c23cb4`, `3f3c815`, `20e840c`, `1997ede`, `a02840e`, `178fa23`, `aa30281`, + tracker syncs)
+- **Total Verified Commits Created:** 28+
+- **Total Genuine PRs Open on GitHub:** 18 (all open targeting `main`, awaiting user review)
+- **Remaining Target Commits to 100:** 72
+- **Remaining Target PRs to 100:** 82
 
 ---
 
@@ -30,6 +30,12 @@
 | 19 | Accessible `ConfirmModal` dialog replacing browser `window.confirm` | `feat-frontend-confirm-modal` | `a834f65` | [#10](https://github.com/priyadharshiniyuvaraj1491926-max/RESUME_ANALYSER/pull/10) | Open | `vite build`: 2,101 modules transformed |
 | 20 | RBAC negative & positive authorization integration test suite for `/api/admin/*` | `feat-admin-route-rbac-negative-tests` | `d5b2903` | [#11](https://github.com/priyadharshiniyuvaraj1491926-max/RESUME_ANALYSER/pull/11) | Open | `backend/tests/adminRbac.test.js`: 6/6 passed; total 19/19 tests |
 | 21 | WAI-ARIA accordion accessibility and keyboard navigation on FAQ page | `feat-frontend-accordion-accessibility` | `2c23cb4` | [#12](https://github.com/priyadharshiniyuvaraj1491926-max/RESUME_ANALYSER/pull/12) | Open | `vite build`: 2,106 modules transformed |
+| 22 | SIGTERM/SIGINT graceful shutdown with MongoDB disconnect | `feat-graceful-shutdown-handler` | `3f3c815` | [#13](https://github.com/priyadharshiniyuvaraj1491926-max/RESUME_ANALYSER/pull/13) | Open | `GET /api/health` verified |
+| 23 | `.env.example` template and `scripts/checkEnv.js` validator | `feat-dotenv-example-file` | `20e840c` | [#14](https://github.com/priyadharshiniyuvaraj1491926-max/RESUME_ANALYSER/pull/14) | Open | Template & env validation script |
+| 24 | Server-side pagination (`page`/`limit`) on `GET /api/analysis` and `AnalysisHistoryPage` | `feat-pagination-analysis-history` | `1997ede` | [#15](https://github.com/priyadharshiniyuvaraj1491926-max/RESUME_ANALYSER/pull/15) | Open | Backend pagination + UI Prev/Next controls |
+| 25 | Compound MongoDB indexes (`userId+createdAt`, `userId+atsScore`) on `ResumeAnalysis` & `Resume` | `feat-mongodb-compound-indexes` | `a02840e` | [#16](https://github.com/priyadharshiniyuvaraj1491926-max/RESUME_ANALYSER/pull/16) | Open | Schema index definitions verified |
+| 26 | Expose MongoDB connection state and process uptime in `GET /api/health` | `feat-health-endpoint-db-status` | `178fa23` | [#17](https://github.com/priyadharshiniyuvaraj1491926-max/RESUME_ANALYSER/pull/17) | Open | Health endpoint telemetry |
+| 27 | Increase Vitest `hookTimeout` to 120s for MongoMemoryServer startup | `fix-test-hook-timeout` | `aa30281` | [#18](https://github.com/priyadharshiniyuvaraj1491926-max/RESUME_ANALYSER/pull/18) | Open | Fixes 30s `beforeAll` timeout in `auth.test.js` & `resume.test.js` |
 
 ---
 
