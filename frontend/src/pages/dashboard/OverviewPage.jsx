@@ -4,6 +4,8 @@ import { Upload, FileSearch, BarChart3, Briefcase, ArrowRight, TrendingUp } from
 import { LineChart, Line, BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid } from 'recharts';
 import api from '../../services/api.js';
 import { useAuth } from '../../context/AuthContext.jsx';
+import PageHeader from '../../components/ui/PageHeader.jsx';
+import StatCard from '../../components/ui/StatCard.jsx';
 
 const OverviewPage = () => {
   const { user } = useAuth();
@@ -28,23 +30,20 @@ const OverviewPage = () => {
 
   return (
     <div className="fade-in">
-      <div style={{ marginBottom: 'var(--space-6)' }}>
-        <h1 style={{ fontSize: 'var(--text-2xl)', fontWeight: 'var(--font-extrabold)', marginBottom: 'var(--space-1)' }}>
-          Good {new Date().getHours() < 12 ? 'morning' : new Date().getHours() < 18 ? 'afternoon' : 'evening'}, {user?.fullName?.split(' ')[0] || 'User'} 👋
-        </h1>
-        <p style={{ color: 'var(--text-muted)', fontSize: 'var(--text-sm)' }}>Here's your resume intelligence summary.</p>
-      </div>
+      <PageHeader
+        title={`Good ${new Date().getHours() < 12 ? 'morning' : new Date().getHours() < 18 ? 'afternoon' : 'evening'}, ${user?.fullName?.split(' ')[0] || 'User'}`}
+        subtitle="Your resume intelligence and ATS progress overview."
+        actions={
+          <Link to="/dashboard/upload" className="btn btn-primary btn-sm">
+            <Upload size={15} /> Upload Resume
+          </Link>
+        }
+      />
 
       {/* KPI cards */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 'var(--space-5)', marginBottom: 'var(--space-8)' }}>
-        {kpis.map(({ label, value, icon: Icon, color }) => (
-          <div key={label} className="stat-card">
-            <div className="stat-card-icon" style={{ background: color + '18' }}>
-              <Icon size={20} style={{ color }} />
-            </div>
-            <div className="stat-card-value">{value}</div>
-            <div className="stat-card-label">{label}</div>
-          </div>
+      <div className="grid-kpi">
+        {kpis.map(({ label, value, icon, color }) => (
+          <StatCard key={label} label={label} value={value} icon={icon} color={color} />
         ))}
       </div>
 

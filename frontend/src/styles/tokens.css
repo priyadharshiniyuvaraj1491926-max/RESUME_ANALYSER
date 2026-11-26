@@ -28,7 +28,8 @@
   /* ── Gradient ── */
   --gradient-brand: linear-gradient(135deg, #6d28d9 0%, #2563eb 100%);
   --gradient-brand-soft: linear-gradient(135deg, #ede9fe 0%, #dbeafe 100%);
-  --gradient-hero: linear-gradient(160deg, #f5f3ff 0%, #eff6ff 60%, #ffffff 100%);
+  --gradient-hero: linear-gradient(160deg, #f8f7ff 0%, #eff6ff 55%, #ffffff 100%);
+  --bg-navbar-scrolled: rgba(255, 255, 255, 0.92);
 
   /* ── Semantic Colors — Light Mode ── */
   --bg-base: #ffffff;
@@ -147,6 +148,9 @@
 
 /* ── Dark Mode ── */
 [data-theme="dark"] {
+  --gradient-hero: linear-gradient(160deg, #16132b 0%, #10172a 55%, #0f0d1a 100%);
+  --gradient-brand-soft: linear-gradient(135deg, rgba(109, 40, 217, 0.18) 0%, rgba(37, 99, 235, 0.16) 100%);
+  --bg-navbar-scrolled: rgba(15, 13, 26, 0.92);
   --bg-base: #0f0d1a;
   --bg-subtle: #1a1730;
   --bg-muted: #231f38;

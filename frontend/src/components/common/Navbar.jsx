@@ -33,7 +33,7 @@ const Navbar = () => {
         position: 'sticky',
         top: 0,
         zIndex: 'var(--z-sticky)',
-        background: scrolled ? 'rgba(255,255,255,0.92)' : 'transparent',
+        background: scrolled ? 'var(--bg-navbar-scrolled)' : 'transparent',
         backdropFilter: scrolled ? 'blur(16px)' : 'none',
         borderBottom: scrolled ? '1px solid var(--border-base)' : '1px solid transparent',
         transition: 'all 0.3s ease',
