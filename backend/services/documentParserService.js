@@ -1,9 +1,20 @@
 import fs from 'fs';
-import { createRequire } from 'module';
 import mammoth from 'mammoth';
+import * as pdfjsLib from 'pdfjs-dist/legacy/build/pdf.mjs';
 
-const require = createRequire(import.meta.url);
-const pdfParse = require('pdf-parse/lib/pdf-parse.js');
+async function extractTextFromPdfBuffer(buffer) {
+  const uint8 = new Uint8Array(buffer);
+  const loadingTask = pdfjsLib.getDocument({ data: uint8, verbosity: 0 });
+  const pdf = await loadingTask.promise;
+  const pageTexts = [];
+  for (let i = 1; i <= pdf.numPages; i++) {
+    const page = await pdf.getPage(i);
+    const content = await page.getTextContent();
+    const strings = content.items.map((item) => item.str || '');
+    pageTexts.push(strings.join(' '));
+  }
+  return pageTexts.join('\n');
+}
 
 export function verifyFileSignature(buffer, fileType) {
   if (!buffer || buffer.length < 4) return false;
@@ -36,8 +47,7 @@ export async function extractResumeText(filePath, fileType) {
   let rawText = '';
   try {
     if (fileType === 'pdf') {
-      const parsed = await pdfParse(buffer);
-      rawText = parsed?.text || '';
+      rawText = await extractTextFromPdfBuffer(buffer);
     } else if (fileType === 'docx') {
       const parsed = await mammoth.extractRawText({ buffer });
       rawText = parsed?.value || '';
