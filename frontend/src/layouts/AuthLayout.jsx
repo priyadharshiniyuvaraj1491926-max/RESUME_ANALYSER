@@ -35,7 +35,7 @@ const AuthLayout = () => (
     <div
       style={{
         width: '100%',
-        maxWidth: 440,
+        maxWidth: 460,
         background: 'var(--bg-card)',
         border: '1px solid var(--border-base)',
         borderRadius: 'var(--radius-2xl)',
@@ -49,7 +49,7 @@ const AuthLayout = () => (
 
     {/* Footer note */}
     <p style={{ marginTop: 'var(--space-6)', fontSize: 'var(--text-xs)', color: 'var(--text-muted)', textAlign: 'center' }}>
-      © {new Date().getFullYear()} ResumeIQ AI · <Link to="/" style={{ color: 'var(--color-primary)' }}>Home</Link>
+      JWT-secured authentication · <Link to="/" style={{ color: 'var(--color-primary)' }}>Back to Home</Link>
     </p>
   </div>
 );

@@ -60,13 +60,14 @@ const ResetPasswordPage = () => {
             <input
               type={showPw ? 'text' : 'password'}
               name="password" value={form.password} onChange={handleChange}
-              required placeholder="Min. 6 characters"
+              required placeholder="Min. 8 chars (A-Z, a-z, 0-9)"
               className="form-input has-icon-left has-icon-right"
             />
             <button type="button" className="input-icon-right" onClick={() => setShowPw(!showPw)} style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--text-muted)' }}>
               {showPw ? <EyeOff size={16} /> : <Eye size={16} />}
             </button>
           </div>
+          <span className="form-hint">Must be 8+ characters with uppercase, lowercase, and a number.</span>
         </div>
 
         <div className="form-group">
