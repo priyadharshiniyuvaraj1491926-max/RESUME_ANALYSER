@@ -121,4 +121,8 @@ const resumeAnalysisSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
+// Compound indexes for efficient per-user queries
+resumeAnalysisSchema.index({ userId: 1, createdAt: -1 });
+resumeAnalysisSchema.index({ userId: 1, atsScore: -1 });
+
 export default mongoose.model('ResumeAnalysis', resumeAnalysisSchema);
