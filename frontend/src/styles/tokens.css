@@ -1,0 +1,179 @@
+/* ============================================================
+   ResumeIQ AI — Design Tokens
+   CSS Custom Properties for consistent theming
+   ============================================================ */
+
+:root {
+  /* ── Brand Colors ── */
+  --color-primary: #6d28d9;
+  --color-primary-light: #7c3aed;
+  --color-primary-dark: #5b21b6;
+  --color-primary-50: #f5f3ff;
+  --color-primary-100: #ede9fe;
+  --color-primary-200: #ddd6fe;
+  --color-primary-500: #8b5cf6;
+  --color-primary-600: #7c3aed;
+  --color-primary-700: #6d28d9;
+  --color-primary-900: #4c1d95;
+
+  --color-blue: #2563eb;
+  --color-blue-light: #3b82f6;
+  --color-blue-dark: #1d4ed8;
+  --color-blue-50: #eff6ff;
+  --color-blue-100: #dbeafe;
+  --color-blue-500: #3b82f6;
+  --color-blue-600: #2563eb;
+  --color-blue-700: #1d4ed8;
+
+  /* ── Gradient ── */
+  --gradient-brand: linear-gradient(135deg, #6d28d9 0%, #2563eb 100%);
+  --gradient-brand-soft: linear-gradient(135deg, #ede9fe 0%, #dbeafe 100%);
+  --gradient-hero: linear-gradient(160deg, #f5f3ff 0%, #eff6ff 60%, #ffffff 100%);
+
+  /* ── Semantic Colors — Light Mode ── */
+  --bg-base: #ffffff;
+  --bg-subtle: #f8f7ff;
+  --bg-muted: #f1f0f9;
+  --bg-card: #ffffff;
+  --bg-card-hover: #faf9ff;
+  --bg-sidebar: #1e1b4b;
+  --bg-sidebar-active: rgba(109, 40, 217, 0.15);
+  --bg-overlay: rgba(0, 0, 0, 0.5);
+
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --text-muted: #94a3b8;
+  --text-inverse: #ffffff;
+  --text-brand: #6d28d9;
+  --text-on-sidebar: #c4b5fd;
+  --text-on-sidebar-active: #ffffff;
+
+  --border-base: #e2e8f0;
+  --border-muted: #f1f5f9;
+  --border-brand: #7c3aed;
+  --border-focus: #6d28d9;
+
+  /* ── Feedback Colors ── */
+  --color-success: #10b981;
+  --color-success-bg: #ecfdf5;
+  --color-success-border: #a7f3d0;
+  --color-warning: #f59e0b;
+  --color-warning-bg: #fffbeb;
+  --color-warning-border: #fde68a;
+  --color-error: #ef4444;
+  --color-error-bg: #fef2f2;
+  --color-error-border: #fecaca;
+  --color-info: #3b82f6;
+  --color-info-bg: #eff6ff;
+  --color-info-border: #bfdbfe;
+
+  /* ── Typography ── */
+  --font-sans: 'Plus Jakarta Sans', 'Inter', system-ui, -apple-system, sans-serif;
+  --font-mono: 'Fira Code', 'Cascadia Code', 'Consolas', monospace;
+
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.25rem;
+  --text-2xl: 1.5rem;
+  --text-3xl: 1.875rem;
+  --text-4xl: 2.25rem;
+  --text-5xl: 3rem;
+  --text-6xl: 3.75rem;
+
+  --font-normal: 400;
+  --font-medium: 500;
+  --font-semibold: 600;
+  --font-bold: 700;
+  --font-extrabold: 800;
+
+  --leading-tight: 1.25;
+  --leading-snug: 1.375;
+  --leading-normal: 1.5;
+  --leading-relaxed: 1.625;
+  --leading-loose: 2;
+
+  /* ── Spacing ── */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-10: 2.5rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+  --space-20: 5rem;
+  --space-24: 6rem;
+
+  /* ── Border Radius ── */
+  --radius-sm: 0.25rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+  --radius-xl: 1rem;
+  --radius-2xl: 1.5rem;
+  --radius-full: 9999px;
+
+  /* ── Shadows ── */
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.08), 0 1px 2px rgba(0, 0, 0, 0.04);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.07), 0 2px 4px -1px rgba(0, 0, 0, 0.04);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -2px rgba(0, 0, 0, 0.04);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.08), 0 10px 10px -5px rgba(0, 0, 0, 0.03);
+  --shadow-brand: 0 4px 14px rgba(109, 40, 217, 0.25);
+  --shadow-brand-lg: 0 8px 25px rgba(109, 40, 217, 0.3);
+  --shadow-card: 0 2px 8px rgba(0, 0, 0, 0.06), 0 1px 3px rgba(0, 0, 0, 0.04);
+
+  /* ── Transitions ── */
+  --transition-fast: 150ms ease;
+  --transition-base: 250ms ease;
+  --transition-slow: 400ms ease;
+
+  /* ── Z-index ── */
+  --z-base: 1;
+  --z-dropdown: 100;
+  --z-sticky: 200;
+  --z-modal: 300;
+  --z-toast: 400;
+  --z-tooltip: 500;
+
+  /* ── Sidebar ── */
+  --sidebar-width: 260px;
+  --sidebar-collapsed-width: 68px;
+  --topbar-height: 64px;
+}
+
+/* ── Dark Mode ── */
+[data-theme="dark"] {
+  --bg-base: #0f0d1a;
+  --bg-subtle: #1a1730;
+  --bg-muted: #231f38;
+  --bg-card: #1a1730;
+  --bg-card-hover: #231f38;
+  --bg-sidebar: #0d0b1a;
+  --bg-sidebar-active: rgba(139, 92, 246, 0.2);
+  --bg-overlay: rgba(0, 0, 0, 0.7);
+
+  --text-primary: #f1f5f9;
+  --text-secondary: #94a3b8;
+  --text-muted: #64748b;
+  --text-inverse: #0f172a;
+  --text-brand: #a78bfa;
+  --text-on-sidebar: #c4b5fd;
+  --text-on-sidebar-active: #ffffff;
+
+  --border-base: #2d2b45;
+  --border-muted: #1e1c35;
+  --border-brand: #7c3aed;
+
+  --shadow-card: 0 2px 8px rgba(0, 0, 0, 0.3), 0 1px 3px rgba(0, 0, 0, 0.2);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.35), 0 4px 6px -2px rgba(0, 0, 0, 0.2);
+
+  --color-success-bg: #052e16;
+  --color-warning-bg: #1c1407;
+  --color-error-bg: #1c0808;
+  --color-info-bg: #0c1a2e;
+}
