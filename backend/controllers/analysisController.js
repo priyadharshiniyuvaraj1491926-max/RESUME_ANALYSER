@@ -72,8 +72,19 @@ export async function runAnalysis(req, res, next) {
 
 export async function listAnalyses(req, res, next) {
   try {
-    const analyses = await ResumeAnalysis.find({ userId: req.user._id }).sort({ createdAt: -1 });
-    return res.json({ analyses });
+    const page = Math.max(1, parseInt(req.query.page, 10) || 1);
+    const limit = Math.min(50, Math.max(1, parseInt(req.query.limit, 10) || 10));
+    const skip = (page - 1) * limit;
+
+    const [analyses, total] = await Promise.all([
+      ResumeAnalysis.find({ userId: req.user._id })
+        .sort({ createdAt: -1 })
+        .skip(skip)
+        .limit(limit),
+      ResumeAnalysis.countDocuments({ userId: req.user._id }),
+    ]);
+
+    return res.json({ analyses, page, limit, total, totalPages: Math.ceil(total / limit) });
   } catch (err) {
     next(err);
   }
