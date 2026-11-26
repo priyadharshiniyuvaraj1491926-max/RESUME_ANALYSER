@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid, Cell } from 'recharts';
-import { AlertTriangle, Play } from 'lucide-react';
 import api from '../../services/api.js';
 import { useToast } from '../../context/ToastContext.jsx';
+import ScoreGauge from '../../components/common/ScoreGauge.jsx';
+import AlertBanner from '../../components/common/AlertBanner.jsx';
 
 const CATEGORIES = [
   { key: 'formatting',  label: 'Formatting',   max: 15 },
@@ -41,10 +42,9 @@ const AtsScorePage = () => {
     <div className="fade-in">
       <h1 style={{ fontSize: 'var(--text-2xl)', fontWeight: 'var(--font-extrabold)', marginBottom: 'var(--space-6)' }}>ATS Score</h1>
 
-      <div className="estimate-notice" style={{ marginBottom: 'var(--space-6)' }}>
-        <AlertTriangle size={16} style={{ flexShrink: 0 }} />
-        <span>ATS Score is a rule-based estimate using a 7-category rubric. It is NOT a guarantee of real ATS pass/fail outcomes.</span>
-      </div>
+      <AlertBanner variant="estimate" style={{ marginBottom: 'var(--space-6)' }}>
+        ATS Score is a rule-based estimate using a 7-category rubric. It is NOT a guarantee of real ATS pass/fail outcomes.
+      </AlertBanner>
 
       {/* Selector */}
       <div className="card" style={{ marginBottom: 'var(--space-6)' }}>
@@ -65,18 +65,9 @@ const AtsScorePage = () => {
         </div>
       ) : (
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 'var(--space-6)' }}>
-          {/* Score circle */}
-          <div className="card" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 'var(--space-5)', padding: 'var(--space-8)' }}>
-            <div style={{ width: 140, height: 140, borderRadius: '50%', background: `conic-gradient(${scoreColor(analysis.atsScore)} ${analysis.atsScore * 3.6}deg, var(--border-muted) 0deg)`, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <div style={{ width: 110, height: 110, borderRadius: '50%', background: 'var(--bg-card)', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
-                <span style={{ fontSize: 'var(--text-4xl)', fontWeight: 'var(--font-extrabold)', color: scoreColor(analysis.atsScore), lineHeight: 1 }}>{analysis.atsScore}</span>
-                <span style={{ fontSize: 'var(--text-xs)', color: 'var(--text-muted)' }}>/ 100</span>
-              </div>
-            </div>
-            <div style={{ textAlign: 'center' }}>
-              <p style={{ fontWeight: 'var(--font-semibold)' }}>{analysis.atsScore >= 75 ? 'Strong' : analysis.atsScore >= 50 ? 'Average' : 'Needs Work'}</p>
-              <p style={{ fontSize: 'var(--text-sm)', color: 'var(--text-muted)' }}>{analysis.engine || 'rule-based'} engine</p>
-            </div>
+          {/* Score gauge */}
+          <div className="card" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: 'var(--space-8)' }}>
+            <ScoreGauge score={analysis.atsScore} size={150} strokeWidth={12} label={`${analysis.analysisMode || analysis.engine || 'rule-based'} engine`} />
           </div>
 
           {/* Bar chart */}
