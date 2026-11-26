@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Outlet, Link, useLocation, useNavigate } from 'react-router-dom';
-import { LayoutDashboard, Users, Activity, FileSearch, BarChart2, LogOut, ChevronLeft } from 'lucide-react';
+import { LayoutDashboard, Users, Activity, FileSearch, BarChart2, LogOut, ChevronLeft, Menu, X } from 'lucide-react';
 import Logo from '../components/common/Logo.jsx';
 import ThemeToggle from '../components/common/ThemeToggle.jsx';
 import { useAuth } from '../context/AuthContext.jsx';
@@ -14,9 +14,14 @@ const ADMIN_NAV = [
 ];
 
 const AdminLayout = () => {
+  const [mobileOpen, setMobileOpen] = useState(false);
   const location = useLocation();
   const navigate  = useNavigate();
   const { user, logout } = useAuth();
+
+  useEffect(() => {
+    setMobileOpen(false);
+  }, [location.pathname]);
 
   const isActive = (href) =>
     href === '/admin'
@@ -26,22 +31,31 @@ const AdminLayout = () => {
   const handleLogout = async () => { await logout(); navigate('/signin'); };
 
   return (
-    <div style={{ display: 'flex', height: '100vh', overflow: 'hidden' }}>
-      {/* Sidebar */}
+    <div className="app-shell">
+      <div
+        className={`sidebar-backdrop ${mobileOpen ? 'is-open' : ''}`}
+        onClick={() => setMobileOpen(false)}
+      />
+
       <aside
-        style={{
-          width: 'var(--sidebar-width)',
-          background: '#0d0b1a',
-          display: 'flex',
-          flexDirection: 'column',
-          flexShrink: 0,
-        }}
+        className={`app-sidebar ${mobileOpen ? 'is-mobile-open' : ''}`}
+        style={{ background: '#0d0b1a' }}
       >
-        <div style={{ height: 'var(--topbar-height)', display: 'flex', alignItems: 'center', padding: '0 var(--space-5)', borderBottom: '1px solid rgba(255,255,255,0.08)', gap: 'var(--space-3)' }}>
-          <span style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: 32, height: 32, borderRadius: 'var(--radius-md)', background: '#fbbf2422', color: '#fbbf24' }}>
-            <LayoutDashboard size={16} />
-          </span>
-          <span style={{ fontSize: 'var(--text-base)', fontWeight: 'var(--font-bold)', color: '#fbbf24' }}>Admin Panel</span>
+        <div style={{ height: 'var(--topbar-height)', display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 var(--space-5)', borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-3)' }}>
+            <span style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: 32, height: 32, borderRadius: 'var(--radius-md)', background: '#fbbf2422', color: '#fbbf24' }}>
+              <LayoutDashboard size={16} />
+            </span>
+            <span style={{ fontSize: 'var(--text-base)', fontWeight: 'var(--font-bold)', color: '#fbbf24' }}>Admin Panel</span>
+          </div>
+          <button
+            className="mobile-menu-btn"
+            onClick={() => setMobileOpen(false)}
+            style={{ width: 28, height: 28, borderRadius: 'var(--radius-md)', background: 'rgba(255,255,255,0.08)', border: 'none', color: '#c4b5fd', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }}
+            aria-label="Close admin sidebar"
+          >
+            <X size={16} />
+          </button>
         </div>
 
         <nav style={{ flex: 1, padding: 'var(--space-3) var(--space-2)', overflowY: 'auto' }}>
@@ -98,18 +112,24 @@ const AdminLayout = () => {
         </div>
       </aside>
 
-      {/* Main */}
-      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
+      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden', minWidth: 0 }}>
         <header
           style={{
             height: 'var(--topbar-height)',
             background: 'var(--bg-card)',
             borderBottom: '1px solid var(--border-base)',
             display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-            padding: '0 var(--space-6)', flexShrink: 0,
+            padding: '0 var(--space-6)', flexShrink: 0, gap: 'var(--space-3)',
           }}
         >
           <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-3)' }}>
+            <button
+              className="btn btn-ghost btn-icon mobile-menu-btn"
+              onClick={() => setMobileOpen(true)}
+              aria-label="Open admin menu"
+            >
+              <Menu size={20} />
+            </button>
             <Logo size="sm" linkTo="/admin" />
             <span style={{ padding: '0.2rem 0.6rem', borderRadius: 'var(--radius-full)', background: '#fbbf2422', color: '#fbbf24', fontSize: 'var(--text-xs)', fontWeight: 'var(--font-semibold)' }}>
               ADMIN
@@ -130,7 +150,9 @@ const AdminLayout = () => {
         </header>
 
         <main style={{ flex: 1, overflowY: 'auto', padding: 'var(--space-6)', background: 'var(--bg-subtle)' }}>
-          <Outlet />
+          <div style={{ maxWidth: 1200, margin: '0 auto' }}>
+            <Outlet />
+          </div>
         </main>
       </div>
     </div>

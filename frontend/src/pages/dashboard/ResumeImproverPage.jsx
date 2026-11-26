@@ -64,7 +64,7 @@ const ResumeImproverPage = () => {
                 <span className="badge badge-primary">{item.section || `Suggestion ${i + 1}`}</span>
                 {item.priority && <span className={`badge badge-${item.priority === 'high' ? 'error' : item.priority === 'medium' ? 'warning' : 'muted'}`}>{item.priority}</span>}
               </div>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 'var(--space-4)' }}>
+              <div className="grid-2col" style={{ gap: 'var(--space-4)' }}>
                 {/* Original */}
                 <div style={{ padding: 'var(--space-4)', background: 'var(--color-error-bg)', borderRadius: 'var(--radius-lg)', border: '1px solid var(--color-error-border)' }}>
                   <p style={{ fontSize: 'var(--text-xs)', fontWeight: 'var(--font-semibold)', color: 'var(--color-error)', marginBottom: 'var(--space-2)', textTransform: 'uppercase' }}>Original</p>

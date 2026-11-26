@@ -23,7 +23,7 @@ const AdminAnalyticsPage = () => {
       {!data ? (
         <div className="empty-state"><BarChart2 size={48} style={{ color: 'var(--text-muted)' }} /><p>Analytics data not available yet. Users need to interact with the platform first.</p></div>
       ) : (
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(400px, 1fr))', gap: 'var(--space-6)' }}>
+        <div className="grid-2col">
           {/* Feature usage bar chart */}
           {data.featureUsage?.length > 0 && (
             <div className="card">

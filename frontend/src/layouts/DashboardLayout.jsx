@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Outlet, Link, useLocation, useNavigate } from 'react-router-dom';
 import {
   LayoutDashboard, Upload, FileSearch, BarChart3, Target, Briefcase,
   Wand2, Compass, MessageSquare, FileText, History, User, Settings,
-  ChevronLeft, ChevronRight, Bell, LogOut, Shield,
+  ChevronLeft, ChevronRight, LogOut, Shield, Menu, X,
 } from 'lucide-react';
 import Logo from '../components/common/Logo.jsx';
 import ThemeToggle from '../components/common/ThemeToggle.jsx';
@@ -27,9 +27,14 @@ const NAV_ITEMS = [
 
 const DashboardLayout = () => {
   const [collapsed, setCollapsed] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
   const { user, isAdmin, logout } = useAuth();
+
+  useEffect(() => {
+    setMobileOpen(false);
+  }, [location.pathname]);
 
   const handleLogout = async () => {
     await logout();
@@ -42,21 +47,17 @@ const DashboardLayout = () => {
       : location.pathname.startsWith(href);
 
   return (
-    <div style={{ display: 'flex', height: '100vh', overflow: 'hidden' }}>
+    <div className="app-shell">
+      <div
+        className={`sidebar-backdrop ${mobileOpen ? 'is-open' : ''}`}
+        onClick={() => setMobileOpen(false)}
+      />
+
       {/* ── Sidebar ── */}
       <aside
-        style={{
-          width: collapsed ? 'var(--sidebar-collapsed-width)' : 'var(--sidebar-width)',
-          background: 'var(--bg-sidebar)',
-          display: 'flex',
-          flexDirection: 'column',
-          flexShrink: 0,
-          transition: 'width 0.25s ease',
-          overflow: 'hidden',
-          zIndex: 'var(--z-sticky)',
-        }}
+        className={`app-sidebar ${collapsed ? 'is-collapsed' : ''} ${mobileOpen ? 'is-mobile-open' : ''}`}
+        style={{ background: 'var(--bg-sidebar)' }}
       >
-        {/* Sidebar header */}
         <div
           style={{
             height: 'var(--topbar-height)',
@@ -70,6 +71,7 @@ const DashboardLayout = () => {
         >
           {!collapsed && <Logo size="sm" linkTo="/dashboard" />}
           <button
+            className="desktop-collapse-btn"
             onClick={() => setCollapsed(!collapsed)}
             style={{
               width: 28, height: 28,
@@ -87,9 +89,25 @@ const DashboardLayout = () => {
           >
             {collapsed ? <ChevronRight size={14} /> : <ChevronLeft size={14} />}
           </button>
+          <button
+            className="mobile-menu-btn"
+            onClick={() => setMobileOpen(false)}
+            style={{
+              width: 28, height: 28,
+              borderRadius: 'var(--radius-md)',
+              background: 'rgba(255,255,255,0.08)',
+              border: 'none',
+              color: 'var(--text-on-sidebar)',
+              alignItems: 'center',
+              justifyContent: 'center',
+              cursor: 'pointer',
+            }}
+            aria-label="Close sidebar"
+          >
+            <X size={16} />
+          </button>
         </div>
 
-        {/* Nav items */}
         <nav style={{ flex: 1, overflowY: 'auto', padding: 'var(--space-3) var(--space-2)' }}>
           {NAV_ITEMS.map(({ label, href, icon: Icon }) => {
             const active = isActive(href);
@@ -122,7 +140,6 @@ const DashboardLayout = () => {
           })}
         </nav>
 
-        {/* Sidebar footer */}
         <div style={{ borderTop: '1px solid rgba(255,255,255,0.08)', padding: 'var(--space-3) var(--space-2)', flexShrink: 0 }}>
           {isAdmin && (
             <Link
@@ -158,8 +175,7 @@ const DashboardLayout = () => {
       </aside>
 
       {/* ── Main area ── */}
-      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
-        {/* Topbar */}
+      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden', minWidth: 0 }}>
         <header
           style={{
             height: 'var(--topbar-height)',
@@ -171,17 +187,25 @@ const DashboardLayout = () => {
             padding: '0 var(--space-6)',
             flexShrink: 0,
             zIndex: 10,
+            gap: 'var(--space-3)',
           }}
         >
-          <div>
-            <p style={{ fontSize: 'var(--text-sm)', color: 'var(--text-muted)' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-3)', minWidth: 0 }}>
+            <button
+              className="btn btn-ghost btn-icon mobile-menu-btn"
+              onClick={() => setMobileOpen(true)}
+              aria-label="Open navigation menu"
+            >
+              <Menu size={20} />
+            </button>
+            <p style={{ fontSize: 'var(--text-sm)', color: 'var(--text-muted)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
               Welcome back,{' '}
               <span style={{ color: 'var(--text-primary)', fontWeight: 'var(--font-semibold)' }}>
                 {user?.fullName?.split(' ')[0] || 'User'}
               </span>
             </p>
           </div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-3)' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-3)', flexShrink: 0 }}>
             <ThemeToggle />
             <Link
               to="/dashboard/profile"
@@ -196,13 +220,13 @@ const DashboardLayout = () => {
                 textDecoration: 'none',
                 flexShrink: 0,
               }}
+              title="Profile"
             >
               {user?.fullName?.charAt(0)?.toUpperCase() || 'U'}
             </Link>
           </div>
         </header>
 
-        {/* Page content */}
         <main
           style={{
             flex: 1,
@@ -211,7 +235,9 @@ const DashboardLayout = () => {
             background: 'var(--bg-subtle)',
           }}
         >
-          <Outlet />
+          <div style={{ maxWidth: 1200, margin: '0 auto' }}>
+            <Outlet />
+          </div>
         </main>
       </div>
     </div>
