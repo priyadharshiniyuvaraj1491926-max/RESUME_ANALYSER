@@ -37,11 +37,20 @@ const SignUpPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (form.password !== form.confirm) { setError('Passwords do not match.'); return; }
-    if (form.password.length < 6)       { setError('Password must be at least 6 characters.'); return; }
+    if (form.password.length < 8 || !/(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/.test(form.password)) {
+      setError('Password must be at least 8 characters and include uppercase, lowercase, and a number.');
+      return;
+    }
     if (!form.terms)                    { setError('Please accept the terms to continue.'); return; }
     setLoading(true); setError('');
     try {
-      await register({ fullName: form.fullName, email: form.email, password: form.password });
+      await register({
+        fullName: form.fullName,
+        email: form.email,
+        password: form.password,
+        confirmPassword: form.confirm,
+        acceptedTerms: form.terms,
+      });
       toast.success('Account created! Welcome to ResumeIQ AI.');
       navigate('/dashboard', { replace: true });
     } catch (err) {

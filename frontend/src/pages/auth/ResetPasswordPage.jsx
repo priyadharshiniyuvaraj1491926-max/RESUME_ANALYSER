@@ -19,10 +19,13 @@ const ResetPasswordPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (form.password !== form.confirm) { setError('Passwords do not match.'); return; }
-    if (form.password.length < 6)       { setError('Password must be at least 6 characters.'); return; }
+    if (form.password.length < 8 || !/(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/.test(form.password)) {
+      setError('Password must be at least 8 characters and include uppercase, lowercase, and a number.');
+      return;
+    }
     setLoad(true); setError('');
     try {
-      await api.post('/auth/reset-password', { token: form.token, password: form.password });
+      await api.post('/auth/reset-password', { token: form.token, password: form.password, confirmPassword: form.confirm });
       toast.success('Password reset successfully! Please sign in.');
       navigate('/signin', { replace: true });
     } catch (err) {
