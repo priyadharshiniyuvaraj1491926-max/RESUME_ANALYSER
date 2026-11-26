@@ -15,15 +15,40 @@ const FaqPage = () => {
       </section>
       <section className="section">
         <div className="container-sm">
-          {FAQ_ITEMS.map((item, i) => (
-            <div key={i} className="accordion-item">
-              <button className={`accordion-trigger ${open === i ? 'open' : ''}`} onClick={() => setOpen(open === i ? null : i)}>
-                {item.q}
-                {open === i ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
-              </button>
-              {open === i && <div className="accordion-content">{item.a}</div>}
-            </div>
-          ))}
+          {FAQ_ITEMS.map((item, i) => {
+            const isOpen = open === i;
+            const headerId = `faq-header-${i}`;
+            const panelId = `faq-panel-${i}`;
+            return (
+              <div key={i} className="accordion-item">
+                <button
+                  id={headerId}
+                  className={`accordion-trigger ${isOpen ? 'open' : ''}`}
+                  onClick={() => setOpen(isOpen ? null : i)}
+                  aria-expanded={isOpen}
+                  aria-controls={panelId}
+                  type="button"
+                >
+                  <span>{item.q}</span>
+                  {isOpen ? (
+                    <ChevronUp size={18} aria-hidden="true" style={{ flexShrink: 0, marginLeft: 'var(--space-3)' }} />
+                  ) : (
+                    <ChevronDown size={18} aria-hidden="true" style={{ flexShrink: 0, marginLeft: 'var(--space-3)' }} />
+                  )}
+                </button>
+                {isOpen && (
+                  <div
+                    id={panelId}
+                    role="region"
+                    aria-labelledby={headerId}
+                    className="accordion-content"
+                  >
+                    {item.a}
+                  </div>
+                )}
+              </div>
+            );
+          })}
         </div>
       </section>
     </div>
