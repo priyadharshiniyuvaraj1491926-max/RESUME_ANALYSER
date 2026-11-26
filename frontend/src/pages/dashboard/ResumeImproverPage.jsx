@@ -16,8 +16,8 @@ const ResumeImproverPage = () => {
     if (!selected) { toast.error('Select an analysis first.'); return; }
     setLoad(true);
     try {
-      const { data } = await api.post(`/analysis/${selected}/improvements`);
-      setImprove(data?.data || null);
+      const { data } = await api.post(`/analysis/improver/generate/${selected}`);
+      setImprove(data?.data || data || null);
       toast.success('Improvement suggestions generated!');
     } catch (err) { toast.error(err?.response?.data?.message || 'Failed to generate improvements.'); }
     finally { setLoad(false); }
@@ -25,7 +25,7 @@ const ResumeImproverPage = () => {
 
   const decide = async (index, action) => {
     try {
-      await api.post(`/analysis/${selected}/improvements/${index}/decide`, { action });
+      await api.patch(`/analysis/improver/${selected}/decision`, { index, status: action === 'accept' ? 'accepted' : 'rejected' });
       toast.success(`Suggestion ${action === 'accept' ? 'accepted' : 'rejected'}.`);
     } catch { /* ignore */ }
   };

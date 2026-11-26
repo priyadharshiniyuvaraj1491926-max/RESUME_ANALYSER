@@ -34,7 +34,7 @@ const ResumeAnalysisPage = () => {
     if (!selected.resumeId) { toast.error('Select a resume first.'); return; }
     setRunning(true);
     try {
-      const { data } = await api.post('/analysis/run', { resumeId: selected.resumeId });
+      const { data } = await api.post(`/analysis/run/${selected.resumeId}`);
       const a = data?.data || null;
       setAnalysis(a);
       if (a) setAnalyses((prev) => [a, ...prev]);

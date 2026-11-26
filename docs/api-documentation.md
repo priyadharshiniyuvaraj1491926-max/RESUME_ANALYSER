@@ -30,12 +30,12 @@ All protected routes require `Authorization: Bearer <token>`.
 - `DELETE /resumes/:id` — Delete resume and related records
 
 ## Analysis & Improver (`/api/analysis`)
-- `POST /analysis/run` — Run NLP + ATS analysis (`resumeId`)
+- `POST /analysis/run/:resumeId` — Run NLP + ATS analysis for a resume
 - `GET /analysis` — List user's analyses
 - `GET /analysis/:id` — Get single analysis
 - `DELETE /analysis/:id` — Delete analysis
-- `POST /analysis/:id/improvements` — Generate side-by-side improvement suggestions
-- `POST /analysis/:id/improvements/:index/decide` — Accept or reject suggestion (`accept` | `reject`)
+- `POST /analysis/improver/generate/:analysisId` — Generate side-by-side improvement suggestions
+- `PATCH /analysis/improver/:analysisId/decision` — Accept or reject suggestion (`accept` | `reject`)
 
 ## ATS, Jobs, Reports & Career Tools
 - `GET /ats/:analysisId` — Get ATS score breakdown
