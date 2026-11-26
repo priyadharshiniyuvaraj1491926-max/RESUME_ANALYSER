@@ -1,5 +1,50 @@
 import { extractSkillsFromText } from './nlpService.js';
 
+export const SKILL_SYNONYMS = {
+  js: 'JavaScript',
+  javascript: 'JavaScript',
+  ts: 'TypeScript',
+  typescript: 'TypeScript',
+  react: 'React',
+  reactjs: 'React',
+  'react.js': 'React',
+  node: 'Node.js',
+  nodejs: 'Node.js',
+  'node.js': 'Node.js',
+  express: 'Express',
+  expressjs: 'Express',
+  'express.js': 'Express',
+  k8s: 'Kubernetes',
+  kubernetes: 'Kubernetes',
+  mongo: 'MongoDB',
+  mongodb: 'MongoDB',
+  postgres: 'PostgreSQL',
+  postgresql: 'PostgreSQL',
+  aws: 'AWS',
+  'amazon web services': 'AWS',
+  gcp: 'GCP',
+  'google cloud': 'GCP',
+  'google cloud platform': 'GCP',
+  py: 'Python',
+  python: 'Python',
+  docker: 'Docker',
+  'ci/cd': 'CI/CD',
+  cicd: 'CI/CD',
+  'continuous integration': 'CI/CD',
+  rest: 'REST API',
+  restful: 'REST API',
+  'rest api': 'REST API',
+  graphql: 'GraphQL',
+  tailwind: 'Tailwind CSS',
+  tailwindcss: 'Tailwind CSS',
+};
+
+export function normalizeSkill(skill) {
+  if (!skill || typeof skill !== 'string') return '';
+  const lower = skill.trim().toLowerCase();
+  return SKILL_SYNONYMS[lower] || skill.trim();
+}
+
 const STOPWORDS = new Set([
   'with', 'that', 'this', 'from', 'have', 'will', 'your', 'about', 'work', 'team', 'years',
   'experience', 'skills', 'using', 'able', 'good', 'strong', 'role', 'position', 'company',
@@ -16,9 +61,21 @@ function extractImportantTerms(text) {
 }
 
 export function matchJobDescription(resumeText, resumeSkills, jobDescription) {
-  const { detectedSkills: jdSkills } = extractSkillsFromText(jobDescription);
+  const { detectedSkills: baseJdSkills } = extractSkillsFromText(jobDescription);
+  const jdSkillSet = new Set(baseJdSkills.map(normalizeSkill));
+
+  // Check synonym variants in JD text
+  for (const [syn, canonical] of Object.entries(SKILL_SYNONYMS)) {
+    const pattern = new RegExp(`(^|[^a-zA-Z0-9+#.])${syn.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}([^a-zA-Z0-9+#.]|$)`, 'i');
+    if (pattern.test(jobDescription)) {
+      jdSkillSet.add(canonical);
+    }
+  }
+
+  const jdSkills = [...jdSkillSet];
   const resumeLower = resumeText.toLowerCase();
-  const resumeSkillSet = new Set(resumeSkills.map((s) => s.toLowerCase()));
+  const normalizedResumeSkills = resumeSkills.map(normalizeSkill);
+  const resumeSkillSet = new Set(normalizedResumeSkills.map((s) => s.toLowerCase()));
 
   const existingSkills = jdSkills.filter((s) => resumeSkillSet.has(s.toLowerCase()));
   const missingSkills = jdSkills.filter((s) => !resumeSkillSet.has(s.toLowerCase()));
@@ -59,6 +116,7 @@ export function matchJobDescription(resumeText, resumeSkills, jobDescription) {
     missingKeywords: [...new Set([...missingSkills, ...missingKeywords])].slice(0, 20),
     requiredSkills: jdSkills,
     existingSkills,
+    missingSkills,
     experienceAlignment,
     recommendations,
   };
