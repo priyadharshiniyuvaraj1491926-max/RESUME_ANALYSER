@@ -19,7 +19,7 @@ const InterviewPrepPage = () => {
 
   useEffect(() => {
     Promise.all([api.get('/analysis'), api.get('/interview/sessions')])
-      .then(([a, s]) => { setAnalyses(a.data?.data || []); setSessions(s.data?.data || []); })
+      .then(([a, s]) => { setAnalyses(a.data?.analyses || []); setSessions(s.data?.sessions || []); })
       .catch(() => {});
   }, []);
 
@@ -28,7 +28,7 @@ const InterviewPrepPage = () => {
     setGen(true);
     try {
       const { data } = await api.post('/interview/generate', form);
-      const s = data?.data || null;
+      const s = data?.session || null;
       setSession(s);
       if (s) setSessions((p) => [s, ...p]);
       toast.success('Interview questions generated!');
@@ -36,13 +36,14 @@ const InterviewPrepPage = () => {
     finally { setGen(false); }
   };
 
-  const submitAnswer = async (sessionId, questionIndex) => {
-    const answer = answers[questionIndex];
-    if (!answer?.trim()) { toast.error('Type your answer first.'); return; }
+  const submitAnswer = async (sessionId, questionId, questionIndex) => {
+    const userAnswer = answers[questionIndex];
+    if (!userAnswer?.trim()) { toast.error('Type your answer first.'); return; }
     setSubmitting((p) => ({ ...p, [questionIndex]: true }));
     try {
-      const { data } = await api.post(`/interview/sessions/${sessionId}/answer`, { questionIndex, answer });
-      setFeedbacks((p) => ({ ...p, [questionIndex]: data?.data?.feedback || 'Answer submitted.' }));
+      const { data } = await api.post(`/interview/sessions/${sessionId}/answer`, { questionId, userAnswer });
+      const updatedQ = data?.session?.questions?.[questionIndex];
+      setFeedbacks((p) => ({ ...p, [questionIndex]: updatedQ?.feedback || 'Answer submitted.' }));
       toast.success('Feedback received!');
     } catch (err) { toast.error(err?.response?.data?.message || 'Failed to submit answer.'); }
     finally { setSubmitting((p) => ({ ...p, [questionIndex]: false })); }
@@ -122,7 +123,7 @@ const InterviewPrepPage = () => {
                     <label className="form-label">Your Answer</label>
                     <textarea className="form-textarea" rows={4} placeholder="Type your mock answer here…" value={answers[i] || ''} onChange={(e) => setAnswers((p) => ({ ...p, [i]: e.target.value }))} />
                   </div>
-                  <button className="btn btn-primary btn-sm" onClick={() => submitAnswer(session._id, i)} disabled={submitting[i]}>
+                  <button className="btn btn-primary btn-sm" onClick={() => submitAnswer(session._id, q._id, i)} disabled={submitting[i]}>
                     {submitting[i] ? <><span className="spinner spinner-sm" /> Submitting…</> : <><Send size={14} /> Submit for Feedback</>}
                   </button>
                   {feedbacks[i] && (

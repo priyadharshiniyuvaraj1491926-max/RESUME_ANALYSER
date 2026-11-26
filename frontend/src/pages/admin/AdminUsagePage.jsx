@@ -10,7 +10,7 @@ const AdminUsagePage = () => {
 
   useEffect(() => {
     api.get('/admin/usage')
-      .then((r) => setData(r.data?.data || null))
+      .then((r) => setData(r.data?.usage || null))
       .catch(() => setData(null))
       .finally(() => setLoad(false));
   }, []);

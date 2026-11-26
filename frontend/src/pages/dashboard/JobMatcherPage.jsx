@@ -12,8 +12,8 @@ const JobMatcherPage = () => {
   const [loading, setLoad]      = useState(false);
 
   useEffect(() => {
-    Promise.all([api.get('/resumes'), api.get('/jobs')])
-      .then(([r, m]) => { setResumes(r.data?.data || []); setMatches(m.data?.data || []); })
+    Promise.all([api.get('/resumes'), api.get('/jobs/matches')])
+      .then(([r, m]) => { setResumes(r.data?.resumes || []); setMatches(m.data?.matches || []); })
       .catch(() => {});
   }, []);
 
@@ -22,7 +22,7 @@ const JobMatcherPage = () => {
     setLoad(true);
     try {
       const { data } = await api.post('/jobs/match', form);
-      const r = data?.data || null;
+      const r = data?.match || null;
       setResult(r);
       if (r) setMatches((p) => [r, ...p]);
       toast.success('Job match complete!');
@@ -68,8 +68,8 @@ const JobMatcherPage = () => {
           <div className="card">
             <div className="card-header"><span className="card-title">Matched Keywords</span></div>
             <div style={{ display: 'flex', flexWrap: 'wrap' }}>
-              {(result.matchedKeywords || []).map((k) => <span key={k} className="badge badge-success" style={{ margin: '0 var(--space-2) var(--space-2) 0' }}>{k}</span>)}
-              {!result.matchedKeywords?.length && <p style={{ color: 'var(--text-muted)', fontSize: 'var(--text-sm)' }}>No keywords matched.</p>}
+              {(result.matchingKeywords || []).map((k) => <span key={k} className="badge badge-success" style={{ margin: '0 var(--space-2) var(--space-2) 0' }}>{k}</span>)}
+              {!result.matchingKeywords?.length && <p style={{ color: 'var(--text-muted)', fontSize: 'var(--text-sm)' }}>No keywords matched.</p>}
             </div>
           </div>
           <div className="card">
@@ -79,10 +79,10 @@ const JobMatcherPage = () => {
               {!result.missingKeywords?.length && <p style={{ color: 'var(--color-success)', fontSize: 'var(--text-sm)' }}>All keywords present!</p>}
             </div>
           </div>
-          {result.suggestions?.length > 0 && (
+          {result.recommendations?.length > 0 && (
             <div className="card" style={{ gridColumn: '1 / -1' }}>
               <div className="card-header"><span className="card-title">Tailoring Suggestions</span></div>
-              {result.suggestions.map((s, i) => (
+              {result.recommendations.map((s, i) => (
                 <div key={i} style={{ padding: 'var(--space-3)', background: 'var(--bg-subtle)', borderRadius: 'var(--radius-lg)', marginBottom: 'var(--space-3)', fontSize: 'var(--text-sm)', color: 'var(--text-secondary)' }}>
                   {typeof s === 'string' ? s : s.text || JSON.stringify(s)}
                 </div>

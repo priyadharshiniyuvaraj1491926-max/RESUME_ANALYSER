@@ -12,16 +12,16 @@ const OverviewPage = () => {
 
   useEffect(() => {
     api.get('/users/dashboard-overview')
-      .then((r) => setData(r.data?.data || null))
+      .then((r) => setData(r.data || null))
       .catch(() => setData(null))
       .finally(() => setLoad(false));
   }, []);
 
   const kpis = [
-    { label: 'Resumes Uploaded', value: data?.resumeCount ?? 0, icon: Upload, color: '#6d28d9' },
-    { label: 'Analyses Run',     value: data?.analysisCount ?? 0, icon: FileSearch, color: '#2563eb' },
-    { label: 'Best ATS Score',   value: data?.bestAtsScore ? `${data.bestAtsScore}%` : '—', icon: BarChart3, color: '#10b981' },
-    { label: 'Job Matches',      value: data?.jobMatchCount ?? 0, icon: Briefcase, color: '#f59e0b' },
+    { label: 'Resumes Analyzed', value: data?.stats?.totalResumesAnalyzed ?? 0, icon: FileSearch, color: '#6d28d9' },
+    { label: 'Latest ATS Score', value: data?.stats?.latestAtsScore ? `${data.stats.latestAtsScore}%` : '—', icon: BarChart3, color: '#2563eb' },
+    { label: 'Average ATS Score', value: data?.stats?.averageAtsScore ? `${data.stats.averageAtsScore}%` : '—', icon: TrendingUp, color: '#10b981' },
+    { label: 'Detected Skills', value: data?.stats?.detectedSkillsCount ?? 0, icon: Briefcase, color: '#f59e0b' },
   ];
 
   if (loading) return <div className="page-loader"><div className="spinner spinner-lg" /></div>;
@@ -49,7 +49,7 @@ const OverviewPage = () => {
       </div>
 
       {/* Quick actions */}
-      {data?.resumeCount === 0 && (
+      {data?.stats?.totalResumesAnalyzed === 0 && (
         <div className="card" style={{ background: 'var(--gradient-brand-soft)', border: '1px solid var(--color-primary-200)', marginBottom: 'var(--space-8)', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 'var(--space-4)' }}>
           <div>
             <h3 style={{ fontWeight: 'var(--font-bold)', marginBottom: 'var(--space-1)' }}>Upload your first resume</h3>
@@ -68,14 +68,14 @@ const OverviewPage = () => {
             <span className="card-title">ATS Score Trend</span>
             <TrendingUp size={18} style={{ color: 'var(--color-primary)' }} />
           </div>
-          {data?.atsTrend?.length > 0 ? (
+          {data?.atsProgress?.length > 0 ? (
             <ResponsiveContainer width="100%" height={200}>
-              <LineChart data={data.atsTrend}>
+              <LineChart data={data.atsProgress}>
                 <CartesianGrid strokeDasharray="3 3" stroke="var(--border-muted)" />
                 <XAxis dataKey="date" tick={{ fontSize: 11, fill: 'var(--text-muted)' }} />
                 <YAxis domain={[0, 100]} tick={{ fontSize: 11, fill: 'var(--text-muted)' }} />
                 <Tooltip />
-                <Line type="monotone" dataKey="score" stroke="#6d28d9" strokeWidth={2} dot={{ fill: '#6d28d9' }} />
+                <Line type="monotone" dataKey="atsScore" stroke="#6d28d9" strokeWidth={2} dot={{ fill: '#6d28d9' }} />
               </LineChart>
             </ResponsiveContainer>
           ) : (
@@ -87,13 +87,13 @@ const OverviewPage = () => {
 
         <div className="card">
           <div className="card-header">
-            <span className="card-title">Skill Distribution</span>
+            <span className="card-title">Skill Gap Overview</span>
           </div>
-          {data?.skillDistribution?.length > 0 ? (
+          {data?.skillGapChart?.length > 0 ? (
             <ResponsiveContainer width="100%" height={200}>
-              <BarChart data={data.skillDistribution}>
+              <BarChart data={data.skillGapChart}>
                 <CartesianGrid strokeDasharray="3 3" stroke="var(--border-muted)" />
-                <XAxis dataKey="category" tick={{ fontSize: 10, fill: 'var(--text-muted)' }} />
+                <XAxis dataKey="name" tick={{ fontSize: 10, fill: 'var(--text-muted)' }} />
                 <YAxis tick={{ fontSize: 11, fill: 'var(--text-muted)' }} />
                 <Tooltip />
                 <Bar dataKey="count" fill="#6d28d9" radius={[4, 4, 0, 0]} />
@@ -108,7 +108,7 @@ const OverviewPage = () => {
       </div>
 
       {/* Recent analyses */}
-      {data?.recentAnalyses?.length > 0 && (
+      {data?.recentHistory?.length > 0 && (
         <div className="card" style={{ marginTop: 'var(--space-6)' }}>
           <div className="card-header">
             <span className="card-title">Recent Analyses</span>
@@ -118,11 +118,11 @@ const OverviewPage = () => {
             <table className="table">
               <thead><tr><th>Resume</th><th>ATS Score</th><th>Engine</th><th>Date</th></tr></thead>
               <tbody>
-                {data.recentAnalyses.map((a) => (
+                {data.recentHistory.map((a) => (
                   <tr key={a._id}>
                     <td style={{ fontWeight: 'var(--font-medium)' }}>{a.resumeName || 'Unnamed'}</td>
                     <td><span className="badge badge-primary">{a.atsScore}%</span></td>
-                    <td><span className="badge badge-muted">{a.engine || 'rule-based'}</span></td>
+                    <td><span className="badge badge-muted">{a.analysisMode || 'rule-based'}</span></td>
                     <td style={{ color: 'var(--text-muted)', fontSize: 'var(--text-xs)' }}>{new Date(a.createdAt).toLocaleDateString()}</td>
                   </tr>
                 ))}

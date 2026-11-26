@@ -19,6 +19,7 @@ export async function runAnalysis(req, res, next) {
     }
 
     const useExternalAi = Boolean(req.body?.useExternalAi) && Boolean(req.user?.preferences?.allowExternalAi || req.body?.useExternalAi);
+    const inputCharCount = resume.extractedText.length;
     const base = performRuleBasedAnalysis(resume.extractedText);
     const { mode, analysis: finalAnalysis } = await enhanceAnalysisWithLlm(
       resume.extractedText,
@@ -27,6 +28,16 @@ export async function runAnalysis(req, res, next) {
     );
     const { atsScore, atsBreakdown } = calculateAtsScore(resume.extractedText, finalAnalysis);
     const improvementSuggestions = generateResumeImprovements(finalAnalysis);
+
+    if (process.env.NODE_ENV !== 'production') {
+      console.log('[ResumeAnalysis]', {
+        resumeId: String(resume._id),
+        fileType: resume.fileType,
+        inputCharCount,
+        detectedSkillsCount: finalAnalysis.detectedSkills?.length || 0,
+        atsScore,
+      });
+    }
 
     const record = await ResumeAnalysis.create({
       userId: req.user._id,

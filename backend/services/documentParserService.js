@@ -10,10 +10,30 @@ async function extractTextFromPdfBuffer(buffer) {
   for (let i = 1; i <= pdf.numPages; i++) {
     const page = await pdf.getPage(i);
     const content = await page.getTextContent();
-    const strings = content.items.map((item) => item.str || '');
-    pageTexts.push(strings.join(' '));
+    let lastY;
+    const lines = [];
+    let currentLine = '';
+
+    for (const item of content.items) {
+      const text = item.str || '';
+      const y = item.transform ? item.transform[5] : null;
+
+      if (lastY !== undefined && y !== null && Math.abs(y - lastY) > 3) {
+        if (currentLine.trim()) lines.push(currentLine.trim());
+        currentLine = text;
+      } else {
+        currentLine = currentLine ? `${currentLine} ${text}` : text;
+      }
+      if (item.hasEOL) {
+        if (currentLine.trim()) lines.push(currentLine.trim());
+        currentLine = '';
+      }
+      lastY = y;
+    }
+    if (currentLine.trim()) lines.push(currentLine.trim());
+    pageTexts.push(lines.join('\n'));
   }
-  return pageTexts.join('\n');
+  return pageTexts.join('\n\n');
 }
 
 export function verifyFileSignature(buffer, fileType) {

@@ -11,7 +11,7 @@ const AnalysisHistoryPage = () => {
   const [loading, setLoad]       = useState(true);
 
   useEffect(() => {
-    api.get('/analysis').then((r) => setAnalyses(r.data?.data || [])).catch(() => {}).finally(() => setLoad(false));
+    api.get('/analysis').then((r) => setAnalyses(r.data?.analyses || [])).catch(() => {}).finally(() => setLoad(false));
   }, []);
 
   const handleDelete = async (id) => {
@@ -25,7 +25,7 @@ const AnalysisHistoryPage = () => {
 
   const downloadPdf = async (id, name) => {
     try {
-      const res = await api.get(`/reports/${id}/download`, { responseType: 'blob' });
+      const res = await api.get(`/reports/analysis/${id}/pdf`, { responseType: 'blob' });
       const url = window.URL.createObjectURL(new Blob([res.data], { type: 'application/pdf' }));
       const a = document.createElement('a');
       a.href = url; a.download = `${name || 'analysis'}_report.pdf`; a.click();

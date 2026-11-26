@@ -14,7 +14,7 @@ const ResumeUploadPage = () => {
   const [loading, setLoad]      = useState(true);
 
   const fetchResumes = () => {
-    api.get('/resumes').then((r) => setResumes(r.data?.data || [])).catch(() => setResumes([])).finally(() => setLoad(false));
+    api.get('/resumes').then((r) => setResumes(r.data?.resumes || r.data?.data || [])).catch(() => setResumes([])).finally(() => setLoad(false));
   };
 
   useEffect(() => { fetchResumes(); }, []);

@@ -12,14 +12,14 @@ const SkillGapPage = () => {
   const [result, setResult]     = useState(null);
   const [loading, setLoad]      = useState(false);
 
-  useEffect(() => { api.get('/analysis').then((r) => setAnalyses(r.data?.data || [])).catch(() => {}); }, []);
+  useEffect(() => { api.get('/analysis').then((r) => setAnalyses(r.data?.analyses || [])).catch(() => {}); }, []);
 
   const run = async () => {
     if (!form.analysisId || !form.targetRole) { toast.error('Select an analysis and target role.'); return; }
     setLoad(true);
     try {
-      const { data } = await api.post('/skills/skill-gap', form);
-      setResult(data?.data || null);
+      const { data } = await api.post('/skills/analyze-gap', form);
+      setResult(data || null);
     } catch (err) { toast.error(err?.response?.data?.message || 'Failed to compute skill gap.'); }
     finally { setLoad(false); }
   };
@@ -58,7 +58,7 @@ const SkillGapPage = () => {
           <div className="card" style={{ textAlign: 'center' }}>
             <p style={{ fontSize: 'var(--text-sm)', color: 'var(--text-muted)', marginBottom: 'var(--space-3)' }}>Role Match</p>
             <div className="score-circle" style={{ margin: '0 auto var(--space-3)' }}>
-              <span className="score-circle-value">{result.matchScore ?? '—'}%</span>
+              <span className="score-circle-value">{result.coveragePercent ?? '—'}%</span>
             </div>
             <p style={{ fontWeight: 'var(--font-semibold)' }}>{form.targetRole}</p>
           </div>
@@ -67,8 +67,8 @@ const SkillGapPage = () => {
           <div className="card">
             <div className="card-header"><span className="card-title">Skills You Have ✓</span></div>
             <div style={{ display: 'flex', flexWrap: 'wrap' }}>
-              {(result.presentSkills || []).map((s) => <span key={s} className="badge badge-success" style={{ marginRight: 'var(--space-2)', marginBottom: 'var(--space-2)' }}>{s}</span>)}
-              {!result.presentSkills?.length && <p style={{ color: 'var(--text-muted)', fontSize: 'var(--text-sm)' }}>None detected for this role.</p>}
+              {(result.existingSkills || []).map((s) => <span key={s} className="badge badge-success" style={{ marginRight: 'var(--space-2)', marginBottom: 'var(--space-2)' }}>{s}</span>)}
+              {!result.existingSkills?.length && <p style={{ color: 'var(--text-muted)', fontSize: 'var(--text-sm)' }}>None detected for this role.</p>}
             </div>
           </div>
 
@@ -82,14 +82,14 @@ const SkillGapPage = () => {
           </div>
 
           {/* Learning path */}
-          {result.learningPath?.length > 0 && (
+          {result.roadmap?.length > 0 && (
             <div className="card" style={{ gridColumn: '1 / -1' }}>
               <div className="card-header"><span className="card-title">Suggested Learning Path</span></div>
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))', gap: 'var(--space-4)' }}>
-                {result.learningPath.map((step, i) => (
+                {result.roadmap.map((step, i) => (
                   <div key={i} style={{ padding: 'var(--space-4)', background: 'var(--bg-subtle)', borderRadius: 'var(--radius-lg)', borderLeft: '3px solid var(--color-primary)' }}>
                     <p style={{ fontWeight: 'var(--font-semibold)', fontSize: 'var(--text-sm)', marginBottom: 'var(--space-1)' }}>{step.skill}</p>
-                    <p style={{ fontSize: 'var(--text-xs)', color: 'var(--text-muted)' }}>{step.resource || 'Search online courses or documentation'}</p>
+                    <p style={{ fontSize: 'var(--text-xs)', color: 'var(--text-muted)' }}>{step.recommendation || step.resource || 'Build a focused project using this skill'}</p>
                   </div>
                 ))}
               </div>

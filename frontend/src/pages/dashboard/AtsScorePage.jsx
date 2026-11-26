@@ -22,7 +22,16 @@ const AtsScorePage = () => {
   const [selected, setSelected] = useState('');
   const [analysis, setAnalysis] = useState(null);
 
-  useEffect(() => { api.get('/analysis').then((r) => setAnalyses(r.data?.data || [])).catch(() => {}); }, []);
+  useEffect(() => {
+    api.get('/analysis').then((r) => {
+      const list = r.data?.analyses || [];
+      setAnalyses(list);
+      if (list.length > 0) {
+        setSelected(list[0]._id);
+        setAnalysis(list[0]);
+      }
+    }).catch(() => {});
+  }, []);
 
   const load = (id) => {
     const a = analyses.find((x) => x._id === id);

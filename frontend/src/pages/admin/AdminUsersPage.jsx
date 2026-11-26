@@ -15,7 +15,7 @@ const AdminUsersPage = () => {
 
   useEffect(() => {
     api.get('/admin/users')
-      .then((r) => setUsers(r.data?.data || []))
+      .then((r) => setUsers(r.data?.users || []))
       .catch(() => setUsers([]))
       .finally(() => setLoad(false));
   }, []);
