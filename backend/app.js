@@ -3,6 +3,7 @@ import cors from 'cors';
 import helmet from 'helmet';
 import morgan from 'morgan';
 import env from './config/env.js';
+import { requestId } from './middleware/requestId.js';
 import { apiLimiter } from './middleware/rateLimiter.js';
 import { errorHandler, notFoundHandler } from './middleware/errorHandler.js';
 
@@ -20,6 +21,7 @@ import toolsRoutes from './routes/toolsRoutes.js';
 const app = express();
 
 app.use(helmet());
+app.use(requestId);
 app.use(
   cors({
     origin: env.frontendUrl,
