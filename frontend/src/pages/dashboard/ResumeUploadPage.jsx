@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Upload, Trash2, FileText, Eye } from 'lucide-react';
 import api from '../../services/api.js';
 import { useToast } from '../../context/ToastContext.jsx';
+import ConfirmModal from '../../components/common/ConfirmModal.jsx';
 
 const ResumeUploadPage = () => {
   const { toast }  = useToast();
@@ -12,6 +13,8 @@ const ResumeUploadPage = () => {
   const [progress, setProgress] = useState(0);
   const [preview, setPreview]   = useState(null);
   const [loading, setLoad]      = useState(true);
+  const [resumeToDelete, setResumeToDelete] = useState(null);
+  const [deleteLoading, setDeleteLoading]   = useState(false);
 
   const fetchResumes = () => {
     api.get('/resumes').then((r) => setResumes(r.data?.data || [])).catch(() => setResumes([])).finally(() => setLoad(false));
@@ -43,14 +46,21 @@ const ResumeUploadPage = () => {
   };
 
   const handleDrop = (e) => { e.preventDefault(); setDragging(false); uploadFile(e.dataTransfer.files[0]); };
-  const handleDelete = async (id) => {
-    if (!window.confirm('Delete this resume? All related analyses will also be removed.')) return;
+
+  const confirmDelete = async () => {
+    if (!resumeToDelete) return;
+    setDeleteLoading(true);
     try {
-      await api.delete(`/resumes/${id}`);
+      await api.delete(`/resumes/${resumeToDelete}`);
       toast.success('Resume deleted.');
-      setResumes((p) => p.filter((r) => r._id !== id));
-      if (preview?._id === id) setPreview(null);
-    } catch { toast.error('Failed to delete resume.'); }
+      setResumes((p) => p.filter((r) => r._id !== resumeToDelete));
+      if (preview?._id === resumeToDelete) setPreview(null);
+      setResumeToDelete(null);
+    } catch {
+      toast.error('Failed to delete resume.');
+    } finally {
+      setDeleteLoading(false);
+    }
   };
 
   return (
@@ -117,7 +127,11 @@ const ResumeUploadPage = () => {
                 <button className="btn btn-secondary btn-sm" onClick={() => setPreview(preview?._id === r._id ? null : r)}>
                   <Eye size={14} /> {preview?._id === r._id ? 'Hide' : 'Preview'}
                 </button>
-                <button className="btn btn-danger btn-sm" onClick={() => handleDelete(r._id)}>
+                <button
+                  className="btn btn-danger btn-sm"
+                  onClick={() => setResumeToDelete(r._id)}
+                  aria-label={`Delete ${r.originalName || 'resume'}`}
+                >
                   <Trash2 size={14} />
                 </button>
               </div>
@@ -137,6 +151,18 @@ const ResumeUploadPage = () => {
           </pre>
         </div>
       )}
+
+      {/* Confirmation Modal */}
+      <ConfirmModal
+        isOpen={Boolean(resumeToDelete)}
+        title="Delete Resume"
+        message="Are you sure you want to delete this resume? All associated ATS analysis records and scores will also be permanently removed."
+        confirmText="Delete Resume"
+        isDanger={true}
+        isLoading={deleteLoading}
+        onConfirm={confirmDelete}
+        onClose={() => !deleteLoading && setResumeToDelete(null)}
+      />
     </div>
   );
 };
