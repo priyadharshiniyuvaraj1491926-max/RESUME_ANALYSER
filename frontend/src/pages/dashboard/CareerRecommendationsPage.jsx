@@ -10,14 +10,13 @@ const CareerRecommendationsPage = () => {
   const [result, setResult]     = useState(null);
   const [loading, setLoad]      = useState(false);
 
-  useEffect(() => { api.get('/analysis').then((r) => setAnalyses(r.data?.data || [])).catch(() => {}); }, []);
+  useEffect(() => { api.get('/analysis').then((r) => setAnalyses(r.data?.analyses || [])).catch(() => {}); }, []);
 
   const run = async () => {
-    if (!selected) { toast.error('Select an analysis first.'); return; }
     setLoad(true);
     try {
-      const { data } = await api.post('/careers/recommendations', { analysisId: selected });
-      setResult(data?.data || null);
+      const { data } = await api.get('/careers/recommendations');
+      setResult(data || null);
     } catch (err) { toast.error(err?.response?.data?.message || 'Failed to load recommendations.'); }
     finally { setLoad(false); }
   };
@@ -50,7 +49,7 @@ const CareerRecommendationsPage = () => {
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 'var(--space-4)' }}>
                 <h3 style={{ fontSize: 'var(--text-lg)', fontWeight: 'var(--font-bold)' }}>{rec.role}</h3>
                 <div style={{ background: 'var(--gradient-brand)', color: '#fff', fontSize: 'var(--text-sm)', fontWeight: 'var(--font-bold)', padding: '0.25rem 0.75rem', borderRadius: 'var(--radius-full)' }}>
-                  {rec.fitPercentage ?? '?'}%
+                  {rec.fitScore ?? rec.fitPercentage ?? '?'}%
                 </div>
               </div>
 

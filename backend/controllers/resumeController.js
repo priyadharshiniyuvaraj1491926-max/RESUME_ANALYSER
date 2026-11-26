@@ -15,6 +15,14 @@ export async function uploadResume(req, res, next) {
   try {
     const { extractedText, wordCount } = await extractResumeText(uploadedFile.path, ext);
 
+    if (process.env.NODE_ENV !== 'production') {
+      console.log('[ResumeUpload]', {
+        fileType: ext,
+        extractedCharCount: extractedText?.length || 0,
+        wordCount,
+      });
+    }
+
     const resume = await Resume.create({
       userId: req.user._id,
       originalName: uploadedFile.originalname,

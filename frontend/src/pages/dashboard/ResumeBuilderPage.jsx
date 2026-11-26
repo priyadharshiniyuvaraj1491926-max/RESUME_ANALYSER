@@ -20,7 +20,7 @@ const ResumeBuilderPage = () => {
 
   useEffect(() => {
     api.get('/builder/draft').then((r) => {
-      if (r.data?.data) setForm({ ...EMPTY, ...r.data.data });
+      if (r.data?.draft) setForm({ ...EMPTY, ...r.data.draft });
     }).catch(() => {});
   }, []);
 
@@ -51,13 +51,15 @@ const ResumeBuilderPage = () => {
   const importFromAnalysis = async () => {
     try {
       const { data } = await api.get('/analysis');
-      const latest = (data?.data || [])[0];
+      const latest = (data?.analyses || [])[0];
       if (!latest) { toast.warning('No analysis found to import from.'); return; }
+      const sec = latest.extractedSections || {};
       setForm((p) => ({
         ...p,
-        fullName: latest.contactInfo?.name || p.fullName,
-        email: latest.contactInfo?.email || p.email,
-        phone: latest.contactInfo?.phone || p.phone,
+        fullName: sec.name || p.fullName,
+        email: sec.contact?.email || p.email,
+        phone: sec.contact?.phone || p.phone,
+        summary: sec.summary || p.summary,
         skills: (latest.detectedSkills || []).join(', ') || p.skills,
       }));
       toast.success('Imported data from latest analysis!');

@@ -10,24 +10,27 @@ const ResumeImproverPage = () => {
   const [improvements, setImprove]    = useState(null);
   const [loading, setLoad]            = useState(false);
 
-  useEffect(() => { api.get('/analysis').then((r) => setAnalyses(r.data?.data || [])).catch(() => {}); }, []);
+  useEffect(() => { api.get('/analysis').then((r) => setAnalyses(r.data?.analyses || [])).catch(() => {}); }, []);
 
   const generate = async () => {
     if (!selected) { toast.error('Select an analysis first.'); return; }
     setLoad(true);
     try {
       const { data } = await api.post(`/analysis/improver/generate/${selected}`);
-      setImprove(data?.data || data || null);
+      setImprove(data?.suggestions || data?.data || null);
       toast.success('Improvement suggestions generated!');
     } catch (err) { toast.error(err?.response?.data?.message || 'Failed to generate improvements.'); }
     finally { setLoad(false); }
   };
 
-  const decide = async (index, action) => {
+  const decide = async (suggestionId, action) => {
     try {
-      await api.patch(`/analysis/improver/${selected}/decision`, { index, status: action === 'accept' ? 'accepted' : 'rejected' });
+      await api.patch(`/analysis/improver/${selected}/decision`, {
+        suggestionId,
+        status: action === 'accept' ? 'accepted' : 'rejected',
+      });
       toast.success(`Suggestion ${action === 'accept' ? 'accepted' : 'rejected'}.`);
-    } catch { /* ignore */ }
+    } catch { toast.error('Failed to save decision.'); }
   };
 
   return (
@@ -82,10 +85,10 @@ const ResumeImproverPage = () => {
                 </p>
               )}
               <div style={{ display: 'flex', gap: 'var(--space-3)', marginTop: 'var(--space-4)' }}>
-                <button className="btn btn-sm" style={{ background: 'var(--color-success)', color: '#fff', border: 'none' }} onClick={() => decide(i, 'accept')}>
+                <button className="btn btn-sm" style={{ background: 'var(--color-success)', color: '#fff', border: 'none' }} onClick={() => decide(item.id || String(i), 'accept')}>
                   <Check size={14} /> Accept
                 </button>
-                <button className="btn btn-secondary btn-sm" onClick={() => decide(i, 'reject')}>
+                <button className="btn btn-secondary btn-sm" onClick={() => decide(item.id || String(i), 'reject')}>
                   <X size={14} /> Reject
                 </button>
               </div>

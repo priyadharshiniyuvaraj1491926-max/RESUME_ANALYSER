@@ -9,7 +9,7 @@ const AdminAnalyticsPage = () => {
 
   useEffect(() => {
     api.get('/admin/analytics')
-      .then((r) => setData(r.data?.data || null))
+      .then((r) => setData(r.data || null))
       .catch(() => setData(null))
       .finally(() => setLoad(false));
   }, []);

@@ -8,7 +8,7 @@ const AdminAnalysesPage = () => {
 
   useEffect(() => {
     api.get('/admin/analyses')
-      .then((r) => setAnalyses(r.data?.data || []))
+      .then((r) => setAnalyses(r.data?.analyses || []))
       .catch(() => setAnalyses([]))
       .finally(() => setLoad(false));
   }, []);
