@@ -54,7 +54,18 @@ export const ROLE_BENCHMARKS = {
 };
 
 export const ACTION_VERBS = [
-  'accelerated', 'architected', 'automated', 'built', 'created', 'delivered', 'designed', 'developed',
-  'engineered', 'enhanced', 'established', 'executed', 'implemented', 'improved', 'increased', 'integrated',
-  'launched', 'led', 'migrated', 'optimized', 'orchestrated', 'reduced', 'refactored', 'resolved', 'scaled', 'tested',
+  'accelerated', 'achieved', 'administered', 'advocated', 'analyzed',
+  'architected', 'audited', 'automated', 'benchmarked', 'built',
+  'championed', 'collaborated', 'configured', 'consolidated', 'containerized',
+  'coordinated', 'created', 'customized', 'decreased', 'delivered',
+  'deployed', 'designed', 'developed', 'diagnosed', 'directed',
+  'documented', 'engineered', 'enhanced', 'established', 'evaluated',
+  'executed', 'formulated', 'generated', 'guided', 'implemented',
+  'improved', 'increased', 'initiated', 'inspected', 'integrated',
+  'investigated', 'launched', 'led', 'maintained', 'mentored',
+  'migrated', 'modernized', 'monitored', 'negotiated', 'optimized',
+  'orchestrated', 'overhauled', 'pioneered', 'provisioned', 'reduced',
+  'refactored', 'resolved', 'restructured', 'revamped', 'scaled',
+  'spearheaded', 'standardized', 'streamlined', 'strengthened', 'structured',
+  'supervised', 'surpassed', 'tested', 'transformed', 'upgraded',
 ];

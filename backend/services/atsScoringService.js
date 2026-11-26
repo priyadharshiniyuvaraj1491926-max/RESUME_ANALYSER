@@ -27,7 +27,11 @@ export function calculateAtsScore(text, analysis) {
 
   // 2. Keywords (max 20)
   const verbHits = ACTION_VERBS.filter((v) => new RegExp(`\\b${v}\\b`, 'i').test(lower)).length;
-  const metricHits = (text.match(/\b\d+%|\$\d+|\b\d+\+?\s*(users|ms|x|projects|clients)\b/gi) || []).length;
+  const metricHits = (
+    text.match(
+      /\b\d+(?:\.\d+)?%|\$\d+(?:,\d+)*(?:\.\d+)?(?:\s*(?:k|m|b|million|billion))?|\b\d+\+?\s*(?:users|clients|customers|requests|req\/s|rps|ms|s|seconds|queries|projects|releases|endpoints|microservices|servers|nodes|percent)\b/gi
+    ) || []
+  ).length;
   let keywords = Math.min(14, verbHits * 2) + Math.min(6, metricHits * 2);
   keywords = Math.min(20, keywords);
 
