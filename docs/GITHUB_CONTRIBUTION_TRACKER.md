@@ -5,11 +5,11 @@
 
 ## Verified Baseline & Progress Summary
 - **Verified Commits on `origin/main`:** 9 (`06d4456` – `fc113a3`)
-- **New Feature/Fix Commits on Branches:** 4 (`350399c`, `a949d84`, `f6bf151`, `7437f9d`)
-- **Total Verified Commits Created:** 13
-- **Total Genuine PRs Created:** 4 (all open targeting `main`, awaiting user review)
-- **Remaining Target Commits to 100:** 87
-- **Remaining Target PRs to 100:** 96
+- **New Feature/Fix Commits on Branches:** 7 (`350399c`, `a949d84`, `f6bf151`, `7437f9d`, `422ead9`, `4d7fab8`, `c3b4b5f`)
+- **Total Verified Commits Created:** 17
+- **Total Genuine PRs Created:** 7 (all open targeting `main`, awaiting user review)
+- **Remaining Target Commits to 100:** 83
+- **Remaining Target PRs to 100:** 93
 
 ---
 
@@ -22,6 +22,9 @@
 | 11 | Landing page SaaS redesign with workspace preview & auth page polish | `feat-landing-and-auth-redesign` | `a949d84` | [#2](https://github.com/priyadharshiniyuvaraj1491926-max/RESUME_ANALYSER/pull/2) | Open | `vite build` clean, auth tests (6/6) |
 | 12 | 100-Task GitHub contribution roadmap and PR tracker documentation | `docs-github-contribution-tracker` | `f6bf151` | [#3](https://github.com/priyadharshiniyuvaraj1491926-max/RESUME_ANALYSER/pull/3) | Open | Verified commit and PR counts on GitHub |
 | 13 | Fix empty resume analysis results, PDF line reconstruction, and API response mappings | `fix/resume-analysis-empty-results` | `7437f9d` | [#4](https://github.com/priyadharshiniyuvaraj1491926-max/RESUME_ANALYSER/pull/4) | Open | Live E2E test: 1,485 chars, ATS 90, 25 skills, 8 exp; `npm test` (13/13); `vite build` |
+| 14 | Reusable `ScoreGauge` SVG meter & `AlertBanner` notification components | `feat-reusable-alert-and-score-gauge` | `422ead9` | [#5](https://github.com/priyadharshiniyuvaraj1491926-max/RESUME_ANALYSER/pull/5) | Open | `vite build` (2,103 modules transformed); accessibility attributes |
+| 15 | `X-Request-Id` correlation middleware & health endpoint telemetry | `feat-backend-request-id-telemetry` | `4d7fab8` | [#6](https://github.com/priyadharshiniyuvaraj1491926-max/RESUME_ANALYSER/pull/6) | Open | `backend/tests/health.test.js`: 3/3 passed; total 16/16 tests |
+| 16 | Expanded action verb taxonomy (70 verbs) & tuned quantified metrics regex | `feat-expanded-action-verbs-and-ats-rubric` | `c3b4b5f` | [#7](https://github.com/priyadharshiniyuvaraj1491926-max/RESUME_ANALYSER/pull/7) | Open | `backend/tests/atsScoring.test.js`: 3/3 passed; total 16/16 tests |
 
 ---
 
