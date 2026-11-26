@@ -5,11 +5,11 @@
 
 ## Verified Baseline & Progress Summary
 - **Verified Commits on `origin/main`:** 9 (`06d4456` – `fc113a3`)
-- **New Feature/Fix Commits on Branches:** 7 (`350399c`, `a949d84`, `f6bf151`, `7437f9d`, `422ead9`, `4d7fab8`, `c3b4b5f`)
-- **Total Verified Commits Created:** 17
-- **Total Genuine PRs Created:** 7 (all open targeting `main`, awaiting user review)
-- **Remaining Target Commits to 100:** 83
-- **Remaining Target PRs to 100:** 93
+- **New Feature/Fix Commits on Pushed Branches:** 13 (`350399c`, `a949d84`, `f6bf151`, `7437f9d`, `422ead9`, `4d7fab8`, `c3b4b5f`, `643158d`, `28e599b`, `a834f65`, `d5b2903`, `2c23cb4`, + tracker syncs)
+- **Total Verified Commits Created:** 22
+- **Total Genuine PRs Open on GitHub:** 12 (all open targeting `main`, awaiting user review)
+- **Remaining Target Commits to 100:** 78
+- **Remaining Target PRs to 100:** 88
 
 ---
 
@@ -25,6 +25,11 @@
 | 14 | Reusable `ScoreGauge` SVG meter & `AlertBanner` notification components | `feat-reusable-alert-and-score-gauge` | `422ead9` | [#5](https://github.com/priyadharshiniyuvaraj1491926-max/RESUME_ANALYSER/pull/5) | Open | `vite build` (2,103 modules transformed); accessibility attributes |
 | 15 | `X-Request-Id` correlation middleware & health endpoint telemetry | `feat-backend-request-id-telemetry` | `4d7fab8` | [#6](https://github.com/priyadharshiniyuvaraj1491926-max/RESUME_ANALYSER/pull/6) | Open | `backend/tests/health.test.js`: 3/3 passed; total 16/16 tests |
 | 16 | Expanded action verb taxonomy (70 verbs) & tuned quantified metrics regex | `feat-expanded-action-verbs-and-ats-rubric` | `c3b4b5f` | [#7](https://github.com/priyadharshiniyuvaraj1491926-max/RESUME_ANALYSER/pull/7) | Open | `backend/tests/atsScoring.test.js`: 3/3 passed; total 16/16 tests |
+| 17 | Recursive XSS and HTML input sanitization middleware | `feat-input-sanitization-middleware` | `643158d` | [#8](https://github.com/priyadharshiniyuvaraj1491926-max/RESUME_ANALYSER/pull/8) | Open | `backend/tests/sanitize.test.js`: 4/4 passed; total 17/17 tests |
+| 18 | Skill synonym normalization in job description matching (`K8s` ↔ `Kubernetes`, `ReactJS` ↔ `React`) | `feat-job-matching-synonym-normalization` | `28e599b` | [#9](https://github.com/priyadharshiniyuvaraj1491926-max/RESUME_ANALYSER/pull/9) | Open | `backend/tests/jobMatcher.test.js`: 3/3 passed; total 16/16 tests |
+| 19 | Accessible `ConfirmModal` dialog replacing browser `window.confirm` | `feat-frontend-confirm-modal` | `a834f65` | [#10](https://github.com/priyadharshiniyuvaraj1491926-max/RESUME_ANALYSER/pull/10) | Open | `vite build`: 2,101 modules transformed |
+| 20 | RBAC negative & positive authorization integration test suite for `/api/admin/*` | `feat-admin-route-rbac-negative-tests` | `d5b2903` | [#11](https://github.com/priyadharshiniyuvaraj1491926-max/RESUME_ANALYSER/pull/11) | Open | `backend/tests/adminRbac.test.js`: 6/6 passed; total 19/19 tests |
+| 21 | WAI-ARIA accordion accessibility and keyboard navigation on FAQ page | `feat-frontend-accordion-accessibility` | `2c23cb4` | [#12](https://github.com/priyadharshiniyuvaraj1491926-max/RESUME_ANALYSER/pull/12) | Open | `vite build`: 2,106 modules transformed |
 
 ---
 
